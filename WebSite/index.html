@@ -3,62 +3,32 @@
 
 <head>
     <title>Web page</title>
-    <style>
-        #logo {
-            text-align: right;
-        }
-
-        #main-background {
-            background-image: url("background.png");
-            background-position: center bottom;
-            background-size: cover;
-            height: 70vh;
-        }
-
-.section-header {
-    text-align: center;
-    display: inline-block;
-    border: 3px solid orange;
-    border-radius: 50%;
-    padding: 5px;
-    width: 30px;
-    height: 30px;
-}
-
-.section-title {
-    text-transform: uppercase;
-    border-bottom: 3px solid orange;
-    display: inline-block;
-}
-
-.section-paragraph {
-    color: gray;
-}
-
-.mini-section {
-    width: 140px;
-    height: 140px;
-    text-align: center;
-    box-shadow: 0px 0px 10px #DADADA;
-}
-
-        .section-style {
-            display: flex;
-             justify-content: space-between;
-             padding-left: 70px;
-             padding-right: 70px;
-        }
-    </style>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="scripts/jquery/jquery-ui.min.css">
+    
 </head>
 
 <body>
 
     <section id="main-background">
-        <h1 id="logo">Logo</h1>
+        <nav id="navigation">
+            <a href="index.html">
+                <h1 class="nav-element">Home</h1>
+            </a>
+            <a href="contact.html">
+                <h1 class="nav-element">Contact</h1>
+            </a>
+            <a href="docs.html">
+                <h1 class="nav-element">Docs</h1>
+            </a>
+            <a href="">
+                <h1 class="nav-element">Logo</h1>
+            </a>
+        </nav>
 
         <div style="display: flex; justify-content: space-between;">
             <div style="width: 50%; text-align: center;">
-                <img src="img1.png" alt="mobile photo" />
+                <img src="assets/img1.png" alt="mobile photo" />
             </div>
             <div style="width: 50%; text-align: center;">
                 <p style="font-size: 50px">EBER</p>
@@ -81,12 +51,12 @@
                 feugiat in. Aenean scelerisque nulla aliquam erat porta aliquam.</p>
         </div>
         <div style="width: 50%">
-            <img src="section1.png" />
+            <img src="assets/section1.png" />
         </div>
 
     </section>
     <div style="text-align: center;">
-        <img style="height: 100px;" src="divider.png" />
+        <img style="height: 100px;" src="assets/divider.png" />
     </div>
     <section style="padding-left: 70px; padding-right: 70px">
         <div>
@@ -96,15 +66,15 @@
             <h2 class="section-title">Technology</h2>
         </div>
         <div>
-            <img style="width: 100%" src="section2.png" />
+            <img style="width: 100%" src="assets/section2.png" />
         </div>
     </section>
     <div style="text-align: center;">
-        <img style="height: 100px;" src="divider.png" />
+        <img style="height: 100px;" src="assets/divider.png" />
     </div>
     <section class="section-style">
         <div style="width: 50%">
-            <img src="section3.png" />
+            <img src="assets/section3.png" />
         </div>
 
         <div style="width: 50%">
@@ -120,24 +90,24 @@
                 feugiat in. Aenean scelerisque nulla aliquam erat porta aliquam.</p>
 
             <div style="display: flex; justify-content: space-between;">
-<div class="mini-section">
-    <img src="section3-1.png" />
-    <p>Wait time charges</p>
-</div>
-<div class="mini-section">
-    <img src="section3-2.png" />
-    <p>Real time driver status</p>
-</div>
-<div class="mini-section">
-    <img src="section3-3.png" />
-    <p>Ride now or later</p>
-</div>
+                <div class="mini-section">
+                    <img src="assets/section3-1.png" />
+                    <p>Wait time charges</p>
+                </div>
+                <div class="mini-section">
+                    <img src="assets/section3-2.png" />
+                    <p>Real time driver status</p>
+                </div>
+                <div class="mini-section">
+                    <img src="assets/section3-3.png" />
+                    <p>Ride now or later</p>
+                </div>
             </div>
 
         </div>
     </section>
     <div style="text-align: center;">
-        <img style="height: 100px;" src="divider.png" />
+        <img style="height: 100px;" src="assets/divider.png" />
     </div>
     <section class="section-style">
         <div style="width: 50%">
@@ -153,27 +123,27 @@
                 feugiat in. Aenean scelerisque nulla aliquam erat porta aliquam.</p>
 
             <div style="display: flex; justify-content: space-between;">
-<div class="mini-section">
-    <img src="section4-1.png" />
-    <p>Auto offline when idles</p>
-</div>
-<div class="mini-section">
-    <img src="section4-2.png" />
-    <p>Interactive Map</p>
-</div>
-<div class="mini-section">
-    <img src="section4-3.png" />
-    <p>Navigation</p>
-</div>
+                <div class="mini-section">
+                    <img src="assets/section4-1.png" />
+                    <p>Auto offline when idles</p>
+                </div>
+                <div class="mini-section">
+                    <img src="assets/section4-2.png" />
+                    <p>Interactive Map</p>
+                </div>
+                <div class="mini-section">
+                    <img src="assets/section4-3.png" />
+                    <p>Navigation</p>
+                </div>
             </div>
         </div>
 
         <div style="width: 50%">
-            <img src="section4.png" />
+            <img src="assets/section4.png" />
         </div>
     </section>
     <div style="text-align: center;">
-        <img style="height: 100px;" src="divider.png" />
+        <img style="height: 100px;" src="assets/divider.png" />
     </div>
     <section class="section-style">
         <div style="width:30%">
@@ -188,39 +158,101 @@
         </div>
 
         <div style="width:70%">
-            <img src="section5.png" />
+            <img src="assets/section5.png" />
         </div>
     </section>
     <section style="display: flex; justify-content: space-between;margin-top: 100px;">
         <div class="mini-section">
-            <img src="section5-1.png" />
+            <img src="assets/section5-1.png" />
             <p>Multiple Country</p>
         </div>
         <div class="mini-section">
-            <img src="section5-1.png" />
+            <img src="assets/section5-1.png" />
             <p>Multiple Country</p>
         </div>
         <div class="mini-section">
-            <img src="section5-1.png" />
+            <img src="assets/section5-1.png" />
             <p>Multiple Country</p>
         </div>
         <div class="mini-section">
-            <img src="section5-1.png" />
+            <img src="assets/section5-1.png" />
             <p>Multiple Country</p>
         </div>
         <div class="mini-section">
-            <img src="section5-1.png" />
+            <img src="assets/section5-1.png" />
             <p>Multiple Country</p>
         </div>
         <div class="mini-section">
-            <img src="section5-1.png" />
+            <img src="assets/section5-1.png" />
             <p>Multiple Country</p>
         </div>
         <div class="mini-section">
-            <img src="section5-1.png" />
+            <img src="assets/section5-1.png" />
             <p>Multiple Country</p>
         </div>
     </section>
+
+    <button id="navigate-to-top">^</button>
+
+
+    <div id="accordion">
+        <h3>Section 1</h3>
+        <div>
+            <p>
+                Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer
+                ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit
+                amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut
+                odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.
+            </p>
+        </div>
+        <h3>Section 2</h3>
+        <div>
+            <p>
+                Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet
+                purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
+                velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In
+                suscipit faucibus urna.
+            </p>
+        </div>
+        <h3>Section 3</h3>
+        <div>
+            <p>
+                Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis.
+                Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero
+                ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis
+                lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.
+            </p>
+            <ul>
+                <li>List item one</li>
+                <li>List item two</li>
+                <li>List item three</li>
+            </ul>
+        </div>
+        <h3>Section 4</h3>
+        <div>
+            <p>
+                Cras dictum. Pellentesque habitant morbi tristique senectus et netus
+                et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in
+                faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia
+                mauris vel est.
+            </p>
+            <p>
+                Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus.
+                Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
+                inceptos himenaeos.
+            </p>
+        </div>
+    </div>
+
+    <script src="scripts/main.js"></script>
+
+    <script src="scripts/jquery/external/jquery/jquery.js"></script>
+    <script src="scripts/jquery/jquery-ui.min.js"></script>
+    <script>
+        $(function () {
+            $("#accordion").accordion();
+        });
+    </script>
 </body>
 
 </html>
