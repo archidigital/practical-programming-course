@@ -30,11 +30,14 @@ enum StatusTypeEnum {
   COMPLETED,
 }
 
-type JobType = {
+export type JobType = {
+  id: string;
   pickupAddress: LocationType;
   destinationAddress: LocationType;
   status: StatusTypeEnum;
   title: string;
+  startTime?: number;
+  completedTime?: number;
 };
 
 type JobListProps = {
@@ -56,7 +59,17 @@ function JobsListComponent(props: JobListProps): JSX.Element {
       .orderByChild('status')
       .equalTo(0)
       .on('value', snapshot => {
-        setDATA(prev => snapshot.val());
+        const jobList: JobType[] = [];
+        snapshot.forEach(jobDB => {
+          const job: JobType = {
+            ...jobDB.val(),
+            id: jobDB.key,
+          };
+          jobList.push(job);
+        });
+        setDATA(jobList);
+
+        // setDATA(prev => snapshot.val());
         //console.log('User data: ', snapshot.val());
       });
   }, []);
@@ -86,7 +99,19 @@ function JobsListComponent(props: JobListProps): JSX.Element {
               latitude: position.coords.latitude,
               longitude: position.coords.longitude,
             });
-            // console.log(position);
+            // currentJobLocations
+            if (currentJob) {
+              const jobID = currentJob.id;
+
+              database()
+                .ref('/currentJobLocations/' + jobID)
+                .set({
+                  currentLocation: position,
+                })
+                .then(() => console.log('Data set.'));
+
+              console.log(position);
+            }
           },
           error => {
             // See error code charts below.
@@ -116,7 +141,16 @@ function JobsListComponent(props: JobListProps): JSX.Element {
     );
   }
 
-  console.log(currentJob);
+  const onStart = () => {
+    database()
+      .ref('/jobList/' + currentJob?.id)
+      .update({
+        status: StatusTypeEnum.IN_PROGRESS,
+        startTime: new Date().getTime(),
+      })
+      .then(() => console.log('Data updated.'));
+    setModalVisible(false);
+  };
 
   return (
     <View>
@@ -139,12 +173,18 @@ function JobsListComponent(props: JobListProps): JSX.Element {
         {currentJob != undefined ? (
           <MapView
             zoomControlEnabled={true}
-            style={{width: '100%', height: '80%'}}
+            style={{width: '100%', height: '70%'}}
             initialRegion={{
-              latitude: 44,
-              longitude: 26,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
+              latitude:
+                (currentJob.pickupAddress.latitude +
+                  currentJob.destinationAddress.latitude) /
+                2,
+              longitude:
+                (currentJob.pickupAddress.longitude +
+                  currentJob.destinationAddress.longitude) /
+                2,
+              latitudeDelta: 0.5,
+              longitudeDelta: 0.5,
             }}>
             <Marker
               title="Pickup Address"
@@ -186,7 +226,10 @@ function JobsListComponent(props: JobListProps): JSX.Element {
             ) : null}
           </MapView>
         ) : null}
-        <Button title="Close" onPress={() => setModalVisible(false)}></Button>
+        <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+          <Button title="Start" onPress={() => onStart()}></Button>
+          <Button title="Close" onPress={() => setModalVisible(false)}></Button>
+        </View>
       </Modal>
     </View>
   );

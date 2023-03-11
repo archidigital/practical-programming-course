@@ -9,8 +9,16 @@ import {
   Typography,
 } from "@mui/material";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
-import { onValue, push, ref } from "firebase/database";
+import {
+  equalTo,
+  onValue,
+  orderByChild,
+  push,
+  query,
+  ref,
+} from "firebase/database";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { db } from "../..";
 
 type LocationType = {
@@ -24,11 +32,14 @@ enum StatusTypeEnum {
   COMPLETED,
 }
 
-type JobType = {
+export type JobType = {
+  id?: string;
   pickupAddress: LocationType;
   destinationAddress: LocationType;
   status: StatusTypeEnum;
   title: string;
+  startTime?: number;
+  completedTime?: number;
 };
 
 const containerStyle = {
@@ -74,15 +85,34 @@ const JobsPage = () => {
   const [title, setTitle] = useState<string>("");
 
   useEffect(() => {
-    const starCountRef = ref(db, "/jobList");
+    let status: StatusTypeEnum = StatusTypeEnum.PENDING;
+    if (alignment === "Pending") {
+      status = StatusTypeEnum.PENDING;
+    }
+    if (alignment === "InProgress") {
+      status = StatusTypeEnum.IN_PROGRESS;
+    }
+    if (alignment === "Completed") {
+      status = StatusTypeEnum.COMPLETED;
+    }
+
+    const starCountRef = query(
+      ref(db, "/jobList"),
+      orderByChild("status"),
+      equalTo(status)
+    );
     onValue(starCountRef, (snapshot) => {
       const jobList: JobType[] = [];
-      snapshot.forEach((job) => {
-        jobList.push(job.val());
+      snapshot.forEach((jobDB) => {
+        const job: JobType = {
+          ...jobDB.val(),
+          id: jobDB.key,
+        };
+        jobList.push(job);
       });
       setDATA(jobList);
     });
-  }, []);
+  }, [alignment]);
 
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
@@ -139,7 +169,7 @@ const JobsPage = () => {
       <div style={{ textAlign: "left" }}>
         {DATA.map((job, index) => (
           <div>
-            {index + 1}: {job.title}
+            {index + 1}: <Link to={`${job.id}`}>{job.title}</Link>
           </div>
         ))}
       </div>

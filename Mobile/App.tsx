@@ -1,47 +1,28 @@
-import React, {useEffect} from 'react';
-import {
-  Alert,
-  Button,
-  PermissionsAndroid,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-import JobsListComponent from './src/components/JobListComponent';
+import HomeScreen from './src/screens/HomeScreen';
+import SettingsScreen from './src/screens/SettingsScreen';
+import CurrentJobScreen from './src/screens/CurrentJobScreen';
+
+const Tab = createBottomTabNavigator();
+
+function MyTabs() {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Settings" component={SettingsScreen} />
+      <Tab.Screen name="Current Job" component={CurrentJobScreen} />
+    </Tab.Navigator>
+  );
+}
 
 function App(): JSX.Element {
-  const a = 11;
-  const b = 22;
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  function onPressLearnMore() {
-    Alert.alert('Test button');
-  }
-
-  function sum(a, b) {
-    return a * b;
-  }
-
   return (
-    <View style={{flex: 1}}>
-      <Text style={{fontSize: 50}}>Home</Text>
-
-      <JobsListComponent titlu="Jobs List" />
-
-      <Button
-        onPress={onPressLearnMore}
-        title="Start shift"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
-        style={{position: 'fixed', bottom: 0}}
-      />
-    </View>
+    <NavigationContainer>
+      <MyTabs />
+    </NavigationContainer>
   );
 }
 

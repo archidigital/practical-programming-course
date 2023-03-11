@@ -7,6 +7,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import JobsPage from "./pages/jobs/JobsPage";
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
+import JobDetailPage from "./pages/jobs/JobDetailPage";
 
 // YOUR FIREBASE CONFIG
 const firebaseConfig = {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: "/jobs",
         element: <JobsPage />,
+      },
+      {
+        path: "/jobs/:jobID",
+        element: <JobDetailPage />,
       },
       {
         path: "/livemap",
