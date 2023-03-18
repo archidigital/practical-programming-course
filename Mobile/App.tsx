@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import HomeScreen from './src/screens/HomeScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
 import CurrentJobScreen from './src/screens/CurrentJobScreen';
+import RegisterScreen from './src/screens/RegisterScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -19,9 +20,11 @@ function MyTabs() {
 }
 
 function App(): JSX.Element {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
   return (
     <NavigationContainer>
-      <MyTabs />
+      {isLoggedIn ? <MyTabs /> : <RegisterScreen />}
     </NavigationContainer>
   );
 }

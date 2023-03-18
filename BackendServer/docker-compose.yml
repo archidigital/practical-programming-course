@@ -1,0 +1,22 @@
+version: "3.6"
+services:
+    postgresqlDB:
+        image: postgres:latest
+        container_name: testdocker
+        restart: always
+        ports:
+            - 5436:5432
+        volumes:
+            - postgresql_db_data:/data/postgres
+            - ./db/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
+        env_file:
+            - ./.env
+            
+    adminerGUI:
+        image: adminer
+        container_name: testadminer
+        restart: always
+        ports:
+            - 8095:8080
+volumes:
+    postgresql_db_data:

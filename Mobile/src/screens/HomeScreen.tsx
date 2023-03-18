@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Button, View} from 'react-native';
 import JobsListComponent from '../components/JobListComponent';
 
@@ -9,6 +9,18 @@ const HomeScreen = () => {
   function onPressLearnMore() {
     // Alert.alert('Test button');
   }
+
+  useEffect(() => {
+    fetch('http://10.0.2.2:8000/hello?name=robert')
+      .then(response => response.json())
+      .then(data => {
+        console.log('data from backend', data);
+        // setTestFromBackend(data.response);
+      });
+    // communicate with backend
+    // http://localhost:8000/
+    // setTestFromBackend
+  }, []);
 
   return (
     <View style={{flex: 1}}>

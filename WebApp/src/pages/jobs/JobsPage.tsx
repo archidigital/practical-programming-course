@@ -84,6 +84,23 @@ const JobsPage = () => {
 
   const [title, setTitle] = useState<string>("");
 
+  const [testFromBackend, setTestFromBackend] = useState<
+    {
+      name: string;
+    }[]
+  >([]);
+
+  useEffect(() => {
+    fetch("http://localhost:8000/hello?name=robert")
+      .then((response) => response.json())
+      .then((data) => {
+        setTestFromBackend(data.response);
+      });
+    // communicate with backend
+    // http://localhost:8000/
+    // setTestFromBackend
+  }, []);
+
   useEffect(() => {
     let status: StatusTypeEnum = StatusTypeEnum.PENDING;
     if (alignment === "Pending") {
@@ -146,7 +163,7 @@ const JobsPage = () => {
   return (
     <div style={{ width: "100%" }}>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <h1>Jobs</h1>
+        <h1>Jobs {testFromBackend.map((m) => m.name).join(",")}</h1>
         <Button variant="contained" onClick={handleOpen}>
           Create Job
         </Button>
