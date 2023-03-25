@@ -8,6 +8,7 @@ import JobsPage from "./pages/jobs/JobsPage";
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 import JobDetailPage from "./pages/jobs/JobDetailPage";
+import LivemapPage from "./pages/livemap/LivemapPage";
 
 // YOUR FIREBASE CONFIG
 const firebaseConfig = {
@@ -43,7 +44,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/livemap",
-        element: <div>Livemap Page</div>,
+        element: <LivemapPage />,
       },
     ],
   },

@@ -48,6 +48,25 @@ app.post("/register", async (req: Request, res: Response) => {
   });
 });
 
+app.post("/login", async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+
+  const queryString = `select id, password from users where email='${email}'`;
+  let result = await pool.query(queryString);
+
+  const encryptedPassword = result.rows[0].password;
+  const userId = result.rows[0].id;
+
+  const isSamePassword = await bcrypt.compare(password, encryptedPassword);
+
+  res.json({
+    response: {
+      success: isSamePassword,
+      userId: userId,
+    },
+  });
+});
+
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
 });
