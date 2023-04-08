@@ -1,4 +1,4 @@
-import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
+import { GoogleMap, MarkerF, useJsApiLoader } from "@react-google-maps/api";
 import { onValue, ref } from "firebase/database";
 import { useEffect, useState } from "react";
 import { db } from "../..";
@@ -50,7 +50,7 @@ const LivemapPage = () => {
       {isLoaded ? (
         <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={3}>
           {userLocations.map((loc) => (
-            <Marker
+            <MarkerF
               position={{
                 lat: loc.latitude,
                 lng: loc.longitude,

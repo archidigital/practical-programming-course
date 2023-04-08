@@ -11,6 +11,8 @@ const Tab = createBottomTabNavigator();
 
 type MyTabsProps = {
   userId: string;
+  accessToken: string;
+  logOut: () => void;
 };
 
 const MyTabs: FC<MyTabsProps> = props => {
@@ -18,10 +20,18 @@ const MyTabs: FC<MyTabsProps> = props => {
     <Tab.Navigator>
       <Tab.Screen
         name="Home"
-        children={() => <HomeScreen userId={props.userId} />}
+        children={() => (
+          <HomeScreen userId={props.userId} accessToken={props.accessToken} />
+        )}
       />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
-      <Tab.Screen name="Current Job" component={CurrentJobScreen} />
+      <Tab.Screen
+        name="Settings"
+        children={() => <SettingsScreen logOut={() => props.logOut()} />}
+      />
+      <Tab.Screen
+        name="Current Job"
+        children={() => <CurrentJobScreen userId={props.userId} />}
+      />
     </Tab.Navigator>
   );
 };
@@ -29,16 +39,25 @@ const MyTabs: FC<MyTabsProps> = props => {
 function App(): JSX.Element {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [userId, setUserId] = useState<string>('');
+  const [accessToken, setAccessToken] = useState<string>('');
 
   return (
     <NavigationContainer>
       {isLoggedIn ? (
-        <MyTabs userId={userId} />
+        <MyTabs
+          userId={userId}
+          accessToken={accessToken}
+          logOut={() => {
+            setIsLoggedIn(false);
+            setUserId('');
+          }}
+        />
       ) : (
         <RegisterScreen
-          loggedInSuccessfully={userId => {
+          loggedInSuccessfully={(userId, accessToken) => {
             setIsLoggedIn(true);
             setUserId(userId);
+            setAccessToken(accessToken);
           }}
         />
       )}

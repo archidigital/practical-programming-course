@@ -7,3 +7,5 @@ CREATE TABLE users (
     email character varying(255) NOT NULL,
     password character varying(255) NOT NULL
 );
+
+ALTER TABLE users ADD CONSTRAINT unique_email UNIQUE (email);

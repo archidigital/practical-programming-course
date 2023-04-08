@@ -24,7 +24,7 @@ type LocationType = {
   longitude: number;
 };
 
-enum StatusTypeEnum {
+export enum StatusTypeEnum {
   PENDING,
   IN_PROGRESS,
   COMPLETED,
@@ -42,6 +42,7 @@ export type JobType = {
 
 type JobListProps = {
   titlu: string;
+  userId: string;
 };
 
 function JobsListComponent(props: JobListProps): JSX.Element {
@@ -142,18 +143,24 @@ function JobsListComponent(props: JobListProps): JSX.Element {
   }
 
   const onStart = () => {
-    database()
-      .ref('/jobList/' + currentJob?.id)
-      .update({
+    const update = {
+      ['/jobList/' + currentJob?.id]: {
+        ...currentJob,
         status: StatusTypeEnum.IN_PROGRESS,
         startTime: new Date().getTime(),
-      })
+      },
+      ['/userCurrentJob/' + props.userId]: currentJob?.id,
+    };
+
+    database()
+      .ref('/')
+      .update(update)
       .then(() => console.log('Data updated.'));
     setModalVisible(false);
   };
 
   return (
-    <View>
+    <View style={{flex: 1}}>
       <Text style={{fontSize: 40}}>{props.titlu}</Text>
       <FlatList
         data={DATA}

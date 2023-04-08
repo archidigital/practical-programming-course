@@ -8,7 +8,7 @@ import {
   ToggleButtonGroup,
   Typography,
 } from "@mui/material";
-import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
+import { GoogleMap, useJsApiLoader, MarkerF } from "@react-google-maps/api";
 import {
   equalTo,
   onValue,
@@ -300,7 +300,7 @@ const JobsPage = () => {
                 zoom={10}
               >
                 {isPickupMarkerVisible && pickupLatLng ? (
-                  <Marker
+                  <MarkerF
                     position={{
                       lat: pickupLatLng.lat,
                       lng: pickupLatLng.lng,
@@ -317,7 +317,7 @@ const JobsPage = () => {
                 ) : null}
 
                 {isDestinationMarkerVisible && destinationLatLng ? (
-                  <Marker
+                  <MarkerF
                     position={{
                       lat: destinationLatLng.lat,
                       lng: destinationLatLng.lng,

@@ -1,5 +1,5 @@
 import { Box, Button, FormControl, TextField, Typography } from "@mui/material";
-import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
+import { GoogleMap, MarkerF, useJsApiLoader } from "@react-google-maps/api";
 import { child, get, onValue, ref } from "firebase/database";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -186,7 +186,7 @@ const JobDetailPage = () => {
             center={center}
             zoom={10}
           >
-            <Marker
+            <MarkerF
               position={{
                 lat: pickupLatLng.lat,
                 lng: pickupLatLng.lng,
@@ -201,7 +201,7 @@ const JobDetailPage = () => {
               title="Pickup"
             />
 
-            <Marker
+            <MarkerF
               position={{
                 lat: destinationLatLng.lat,
                 lng: destinationLatLng.lng,
@@ -216,7 +216,7 @@ const JobDetailPage = () => {
               title="Destination"
             />
             {currentDriverLocation && (
-              <Marker
+              <MarkerF
                 position={{
                   lat: currentDriverLocation.lat,
                   lng: currentDriverLocation.lng,

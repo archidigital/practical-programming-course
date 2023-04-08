@@ -1,8 +1,15 @@
 import {FC, useState} from 'react';
-import {View, Text, TextInput, Button, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  TouchableOpacity,
+  Keyboard,
+} from 'react-native';
 
 type RegisterScreenProps = {
-  loggedInSuccessfully: (userId: string) => void;
+  loggedInSuccessfully: (userId: string, accessToken: string) => void;
 };
 
 const RegisterScreen: FC<RegisterScreenProps> = props => {
@@ -14,6 +21,7 @@ const RegisterScreen: FC<RegisterScreenProps> = props => {
   const [loginUserPassword, setLoginUserPassword] = useState<string>('');
 
   const [message, setMessage] = useState<string>('');
+  const [error, setError] = useState<string>('');
 
   const [isLoggingIn, setIsLoggingIn] = useState<boolean>(false);
 
@@ -22,7 +30,6 @@ const RegisterScreen: FC<RegisterScreenProps> = props => {
       email: loginUserEmail,
       password: loginUserPassword,
     };
-
     fetch('http://10.0.2.2:8000/login', {
       method: 'POST',
       body: JSON.stringify(body),
@@ -34,7 +41,8 @@ const RegisterScreen: FC<RegisterScreenProps> = props => {
       .then(data => {
         if (data.response.success == true) {
           const userId = data.response.userId;
-          props.loggedInSuccessfully(userId);
+          const token = data.response.token;
+          props.loggedInSuccessfully(userId, token);
         }
       });
   };
@@ -55,13 +63,16 @@ const RegisterScreen: FC<RegisterScreenProps> = props => {
     })
       .then(response => response.json())
       .then(data => {
-        if (data.response.id) {
+        if (data.response.success === true) {
           setMessage('User registered successfully!');
           setUserName('');
           setUserEmail('');
           setUserPassword('');
+        } else {
+          setError(data.response.message);
         }
-        // setTestFromBackend(data.response);
+
+        Keyboard.dismiss();
       });
   };
 
@@ -104,6 +115,11 @@ const RegisterScreen: FC<RegisterScreenProps> = props => {
           {message && (
             <Text style={{fontSize: 21, color: '#8fce00', marginTop: 10}}>
               {message}
+            </Text>
+          )}
+          {error && (
+            <Text style={{fontSize: 21, color: '#802000', marginTop: 10}}>
+              {error}
             </Text>
           )}
           <TouchableOpacity

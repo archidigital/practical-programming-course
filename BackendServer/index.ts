@@ -1,9 +1,10 @@
-import express, { Express, Request, Response } from "express";
+import express, { Express, NextFunction, Request, Response } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import { Pool } from "pg";
+import { DatabaseError, Pool } from "pg";
 import bcrypt from "bcrypt";
 import bodyParser from "body-parser";
+import jwt from "jsonwebtoken";
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(bodyParser.json({ type: "application/*+json" }));
 
 const port = process.env.PORT;
+const TOKEN_SECRET = process.env.TOKEN_SECRET ?? "";
 
 // db connection
 const config = {
@@ -23,6 +25,10 @@ const config = {
 
 const pool = new Pool(config);
 //
+
+function generateAccessToken(userId: string) {
+  return jwt.sign(userId, TOKEN_SECRET);
+}
 
 app.get("/hello", async (request: Request, response: Response) => {
   const queryString = "select name from users";
@@ -41,16 +47,26 @@ app.post("/register", async (req: Request, res: Response) => {
   const encryptedPassword = await bcrypt.hash(password, 10);
 
   const queryString = `insert into users(name, email, password) values ('${name}', '${email}', '${encryptedPassword}') returning *`;
-  let result = await pool.query(queryString);
-
-  res.json({
-    response: result.rows[0],
-  });
+  try {
+    let result = await pool.query(queryString);
+    res.json({
+      response: {
+        success: true,
+      },
+    });
+  } catch (error) {
+    const dbError = error as DatabaseError;
+    res.json({
+      response: {
+        success: false,
+        message: dbError.detail,
+      },
+    });
+  }
 });
 
 app.post("/login", async (req: Request, res: Response) => {
   const { email, password } = req.body;
-
   const queryString = `select id, password from users where email='${email}'`;
   let result = await pool.query(queryString);
 
@@ -59,10 +75,49 @@ app.post("/login", async (req: Request, res: Response) => {
 
   const isSamePassword = await bcrypt.compare(password, encryptedPassword);
 
+  const token = generateAccessToken(userId);
+
   res.json({
     response: {
       success: isSamePassword,
       userId: userId,
+      token: token,
+    },
+  });
+});
+
+function authenticateToken(req: Request, res: Response, next: NextFunction) {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (token == null) return res.sendStatus(401);
+
+  jwt.verify(token, TOKEN_SECRET, (err: any, userId: any) => {
+    console.log("err", err);
+    console.log("userId", userId);
+
+    if (err) return res.sendStatus(403);
+
+    // req.user = user
+
+    next();
+  });
+}
+
+app.get("/me", authenticateToken, async (req: Request, res: Response) => {
+  // get user data from db
+
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+  const userId = jwt.decode(token ?? "");
+
+  const queryString = `select name from users where id='${userId}'`;
+  let result = await pool.query(queryString);
+
+  res.json({
+    response: {
+      success: true,
+      name: result.rows[0].name,
     },
   });
 });
