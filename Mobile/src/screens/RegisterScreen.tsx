@@ -30,7 +30,7 @@ const RegisterScreen: FC<RegisterScreenProps> = props => {
       email: loginUserEmail,
       password: loginUserPassword,
     };
-    fetch('http://10.0.2.2:8000/login', {
+    fetch('https://web.riderapp.ro/api/login', {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {
@@ -54,7 +54,7 @@ const RegisterScreen: FC<RegisterScreenProps> = props => {
       password: userPassword,
     };
 
-    fetch('http://10.0.2.2:8000/register', {
+    fetch('https://web.riderapp.ro/api/register', {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {

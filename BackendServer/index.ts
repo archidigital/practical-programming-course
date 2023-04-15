@@ -30,7 +30,12 @@ function generateAccessToken(userId: string) {
   return jwt.sign(userId, TOKEN_SECRET);
 }
 
-app.get("/hello", async (request: Request, response: Response) => {
+
+app.get("/api", async (request: Request, response: Response) => {
+  response.status(200).send("hello from server");
+});
+
+app.get("/api/hello", async (request: Request, response: Response) => {
   const queryString = "select name from users";
   let result = await pool.query(queryString);
 
@@ -41,7 +46,7 @@ app.get("/hello", async (request: Request, response: Response) => {
   });
 });
 
-app.post("/register", async (req: Request, res: Response) => {
+app.post("/api/register", async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
 
   const encryptedPassword = await bcrypt.hash(password, 10);
@@ -65,7 +70,7 @@ app.post("/register", async (req: Request, res: Response) => {
   }
 });
 
-app.post("/login", async (req: Request, res: Response) => {
+app.post("/api/login", async (req: Request, res: Response) => {
   const { email, password } = req.body;
   const queryString = `select id, password from users where email='${email}'`;
   let result = await pool.query(queryString);
@@ -104,7 +109,7 @@ function authenticateToken(req: Request, res: Response, next: NextFunction) {
   });
 }
 
-app.get("/me", authenticateToken, async (req: Request, res: Response) => {
+app.get("/api/me", authenticateToken, async (req: Request, res: Response) => {
   // get user data from db
 
   const authHeader = req.headers["authorization"];

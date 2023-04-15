@@ -91,7 +91,7 @@ const JobsPage = () => {
   >([]);
 
   useEffect(() => {
-    fetch("http://localhost:8000/hello?name=robert")
+    fetch("https://web.riderapp.ro/api/hello?name=robert")
       .then((response) => response.json())
       .then((data) => {
         setTestFromBackend(data.response);

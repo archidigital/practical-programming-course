@@ -15,7 +15,7 @@ const HomeScreen: FC<HomeScreenProps> = props => {
   const [userName, setUserName] = useState<string>('');
 
   useEffect(() => {
-    fetch('http://10.0.2.2:8000/me', {
+    fetch('https://web.riderapp.ro/api/me', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
